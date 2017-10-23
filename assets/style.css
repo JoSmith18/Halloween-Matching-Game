@@ -38,3 +38,8 @@ table {
     text-align: center;
     margin: auto;
 }
+
+.block {
+    width: 85%;
+    height: 85%;
+}
