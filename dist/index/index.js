@@ -4849,7 +4849,7 @@ var DATA = {
 };
 
 function draw() {
-    $('#app').html(showGrid(DATA.grid));
+    $('#board').html(showGrid(DATA.grid));
     attachHandlers();
 }
 
@@ -4922,11 +4922,19 @@ function main() {
         draw();
 
         setTimeout(function() {
-            $('#app').html('<div class="jumbotron">' + DATA.score + '</div>');
+            $('#board').html(
+                '<div class="jumbotron"><h1>Your Score Is &nbsp' +
+                    DATA.score +
+                    '!!!</h1></div>'
+            );
         }, 35000);
     });
     setTimeout(function() {
-        $('#app').html('<div class="jumbotron">' + DATA.score + '</div>');
+        $('#board').html(
+            '<div class="jumbotron"><h1>Your Score Is &nbsp' +
+                DATA.score +
+                '!!!</h1></div>'
+        );
     }, 35000);
 }
 

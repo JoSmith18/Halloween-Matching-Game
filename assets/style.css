@@ -46,6 +46,7 @@ table {
 }
 
 li {
+    margin: 100px;
     font: message-box;
     font-size: 22;
     color: white;
