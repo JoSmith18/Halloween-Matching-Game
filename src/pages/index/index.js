@@ -1,20 +1,24 @@
 const $ = require('jquery');
 const R = require('ramda');
 const other = require('../../lib/other');
+
+var WIDTH = 6;
+var HEIGHT = 6;
+
 // model
 function randint(lo, hi) {
     return lo + Math.floor(Math.random() * (hi - lo));
 }
 
 function randBlock() {
-    return { BlockType: randint(0, 3), touched: false };
+    return { BlockType: randint(0, 5), touched: false };
 }
 
 function randGrid() {
     grid = [];
-    for (var c = 0; c < 5; c++) {
+    for (var c = 0; c < 6; c++) {
         grid.push([]);
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 6; i++) {
             grid[grid.length - 1].push(randBlock());
         }
     }
@@ -25,14 +29,14 @@ function randGrid() {
 const IMAGES = [
     '../../assets/1.jpg',
     '../../assets/2.jpg',
-    '../../assets/4.jpg'
+    '../../assets/4.jpg',
+    '../../assets/5.jpg',
+    '../../assets/3.jpg'
 ];
 
 function get_img(block) {
     if (!block.touched) {
         return IMAGES[block.BlockType];
-    } else {
-        return '../../assets/3.jpg';
     }
 }
 
@@ -76,9 +80,7 @@ function draw() {
     attachHandlers();
 }
 
-function touch(grid, start_x, start_y) {
-    var clump = checked(grid, start_x, start_y);
-
+function touch(clump) {
     if (clump.length > 1) {
         for (i = 0; i < clump.length; i++) {
             var x = clump[i][0];
@@ -89,7 +91,7 @@ function touch(grid, start_x, start_y) {
     return 25 * clump.length;
 }
 function outOfBounds(x, y) {
-    if (x < 0 || x >= 5 || y < 0 || y >= 5) {
+    if (x < 0 || x >= 6 || y < 0 || y >= 6) {
         return true;
     }
 }
@@ -120,17 +122,26 @@ function checked(grid, start_x, start_y) {
     return clump_so_far;
 }
 
+function hideFade(clump) {
+    clump.forEach(function(element) {
+        var x = element[0];
+        var y = element[1];
+        $('#' + x + '-' + y).hide();
+        $('#' + x + '-' + y).fadeIn();
+    });
+}
 function attachHandlers() {
-    for (var x = 0; x < 5; x++) {
-        for (var y = 0; y < 5; y++) {
+    for (var x = 0; x < 6; x++) {
+        for (var y = 0; y < 6; y++) {
             $('#' + x + '-' + y).on(
                 'click',
                 (function(x, y) {
                     return function() {
-                        DATA.score += touch(DATA.grid, x, y);
+                        var clump = checked(DATA.grid, x, y);
+                        DATA.score += touch(clump);
 
-                        $('#' + x + '-' + y).add('disabled', true);
                         draw();
+                        hideFade(clump);
                     };
                 })(x, y)
             );
@@ -152,13 +163,6 @@ function main() {
             );
         }, 35000);
     });
-    setTimeout(function() {
-        $('#board').html(
-            '<div class="jumbotron"><h1>Your Score Is &nbsp' +
-                DATA.score +
-                '!!!</h1></div>'
-        );
-    }, 35000);
 }
 
 $(main);

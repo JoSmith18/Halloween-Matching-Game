@@ -1,3 +1,6 @@
+body {
+    background-image: url('../assets/background.jpg');
+}
 .square {
     width: 100px;
     height: 100px;
@@ -22,7 +25,6 @@ td {
 
 #board {
     text-align: center;
-    background-image: url('../assets/background.jpg');
 }
 
 h1 {
