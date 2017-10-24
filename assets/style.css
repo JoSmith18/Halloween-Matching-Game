@@ -1,5 +1,5 @@
 body {
-    background-image: url('../assets/background.jpg');
+    background-image: url('background.jpg');
 }
 .square {
     width: 100px;
@@ -18,6 +18,9 @@ input {
     font-size: 4.5em;
 }
 
+.pic {
+    width: 150px;
+}
 td {
     text-align: center;
     vertical-align: middle;
@@ -57,4 +60,31 @@ li {
     font: message-box;
     font-size: 22;
     color: white;
+}
+
+.superScary {
+    width: 100%;
+    height: 100%;
+}
+
+.superScary1 {
+    background-image: url('scary.gif');
+    background-size: cover;
+}
+
+.superScary2 {
+    background-image: url('scary1.gif');
+    background-size: cover;
+}
+.superScary3 {
+    background-image: url('scary2.gif');
+    background-size: cover;
+}
+.superScary4 {
+    background-image: url('halloween.jpg');
+    background-size: cover;
+}
+.superScary5 {
+    background-image: url('halloween2.jpg');
+    background-size: cover;
 }

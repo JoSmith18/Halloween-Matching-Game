@@ -2,6 +2,7 @@ const $ = require('jquery');
 const R = require('ramda');
 const other = require('../../lib/other');
 
+var TIMEOUTID = setTimeout(function() {}, 1000 * 60 * 5);
 var WIDTH = 6;
 var HEIGHT = 6;
 
@@ -26,6 +27,14 @@ function randGrid() {
 }
 
 // view
+
+const SCARY = [
+    'superScary1',
+    'superScary2',
+    'superScary3',
+    'superScary4',
+    'superScary5'
+];
 const IMAGES = [
     '../../assets/1.jpg',
     '../../assets/2.jpg',
@@ -120,6 +129,19 @@ function checked(grid, start_x, start_y) {
     return clump_so_far;
 }
 
+function afterGame(spookyclass) {
+    $('#board')
+        .removeClass(spookyclass)
+        .html(
+            '<div class="jumbotron endmessage"><h1 class="endmessage">' +
+                'You win with score of 3000! Good Job!' +
+                '<br><img class="pic" src="../../assets/spooky2.gif">' +
+                '</h1></div>'
+        )
+        .fadeIn(500);
+    clearTimeout(TIMEOUTID);
+}
+
 function hideFade(clump) {
     clump.forEach(function(element) {
         var x = element[0];
@@ -137,6 +159,23 @@ function attachHandlers() {
                     return function() {
                         var clump = checked(DATA.grid, x, y);
                         DATA.score += touch(clump);
+                        if (DATA.score >= 3000) {
+                            var spookyclass = SCARY[randint(0, 5)];
+                            $('#board')
+                                .hide()
+                                .html('')
+                                .fadeIn()
+                                .addClass('superScary')
+                                .addClass(spookyclass)
+                                .fadeOut(8000);
+                            $('#board')
+                                .promise()
+                                .done(function() {
+                                    clearTimeout(TIMEOUTID);
+                                    afterGame(spookyclass);
+                                });
+                            return '';
+                        }
 
                         draw();
                         hideFade(clump);
@@ -147,23 +186,27 @@ function attachHandlers() {
     }
 }
 
+function clearTO() {
+    clearTimeout(TIMEOUTID);
+    return setTimeout(function() {
+        if (DATA.score < 3000) {
+            $('#board').html(
+                '<div class="jumbotron endmessage"><h1 class="endmessage">' +
+                    'You Did Not Reach The Required Score of 3000 with your score of ' +
+                    DATA.score +
+                    '</h1></div>'
+            );
+        }
+    }, 35000);
+}
+
 function main() {
-    $('#start').click(() => {
+    $('.start').click(() => {
         DATA.grid = randGrid();
         DATA.score = 0;
         draw();
 
-        setTimeout(function() {
-            $('#board').html(
-                '<div class="jumbotron endmessage"><h1 class="endmessage">' +
-                    (DATA.score >= 3000
-                        ? 'You Reached The Required Score of 3000 with your score of ' +
-                          DATA.score
-                        : 'You Did Not Reach The Required Score of 3000 with your score of ' +
-                          DATA.score) +
-                    '</h1></div>'
-            );
-        }, 35000);
+        TIMEOUTID = clearTO();
     });
 }
 
