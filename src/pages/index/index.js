@@ -81,12 +81,10 @@ function draw() {
 }
 
 function touch(clump) {
-    if (clump.length > 1) {
-        for (i = 0; i < clump.length; i++) {
-            var x = clump[i][0];
-            var y = clump[i][1];
-            DATA.grid[x][y] = randBlock();
-        }
+    for (i = 0; i < clump.length; i++) {
+        var x = clump[i][0];
+        var y = clump[i][1];
+        DATA.grid[x][y] = randBlock();
     }
     return 25 * clump.length;
 }
@@ -157,9 +155,13 @@ function main() {
 
         setTimeout(function() {
             $('#board').html(
-                '<div class="jumbotron"><h1>Your Score Is &nbsp' +
-                    DATA.score +
-                    '!!!</h1></div>'
+                '<div class="jumbotron"><h1>' +
+                    (DATA.score >= 3000
+                        ? 'You Reached The Required Score of 3000 with your score of ' +
+                          DATA.score
+                        : 'You Did Not Reach The Required Score of 3000 with your score of ' +
+                          DATA.score) +
+                    '</h1></div>'
             );
         }, 35000);
     });
