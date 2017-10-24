@@ -31,6 +31,11 @@ h1 {
     text-align: center;
 }
 
+.endmessage {
+    text-align: center;
+    background-color: darkgreen;
+    color: white;
+}
 .rt {
     width: 300px;
     margin-left: auto;

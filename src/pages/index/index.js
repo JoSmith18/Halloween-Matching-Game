@@ -155,7 +155,7 @@ function main() {
 
         setTimeout(function() {
             $('#board').html(
-                '<div class="jumbotron"><h1>' +
+                '<div class="jumbotron endmessage"><h1 class="endmessage">' +
                     (DATA.score >= 3000
                         ? 'You Reached The Required Score of 3000 with your score of ' +
                           DATA.score
