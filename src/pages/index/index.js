@@ -26,6 +26,20 @@ function randGrid() {
     return grid;
 }
 
+function nonRandGrid() {
+    grid = [];
+    for (var c = 0; c < 6; c++) {
+        grid.push([]);
+        for (var i = 0; i < 6; i++) {
+            grid[grid.length - 1].push({
+                BlockType: 2,
+                touched: false
+            });
+        }
+    }
+    return grid;
+}
+
 // view
 
 const SCARY = [
@@ -90,12 +104,21 @@ function draw() {
 }
 
 function touch(clump) {
-    for (i = 0; i < clump.length; i++) {
-        var x = clump[i][0];
-        var y = clump[i][1];
+    if (clump.length > 1) {
+        score = 0;
+        for (var i = 0; i < clump.length; i++) {
+            var x = clump[i][0];
+            var y = clump[i][1];
+            DATA.grid[x][y] = randBlock();
+            score += Math.ceil(clump.length ** 2 / 1.25);
+        }
+        return Math.min(score, 750);
+    } else {
+        var x = clump[0][0];
+        var y = clump[0][1];
         DATA.grid[x][y] = randBlock();
+        return -10;
     }
-    return 25 * clump.length;
 }
 function outOfBounds(x, y) {
     if (x < 0 || x >= 6 || y < 0 || y >= 6) {
@@ -134,7 +157,7 @@ function afterGame(spookyclass) {
         .removeClass(spookyclass)
         .html(
             '<div class="jumbotron endmessage"><h1 class="endmessage">' +
-                'You win with score of 3000! Good Job!' +
+                'You win with score of 1000! Good Job!' +
                 '<br><img class="pic" src="../../assets/spooky2.gif">' +
                 '</h1></div>'
         )
@@ -159,7 +182,7 @@ function attachHandlers() {
                     return function() {
                         var clump = checked(DATA.grid, x, y);
                         DATA.score += touch(clump);
-                        if (DATA.score >= 3000) {
+                        if (DATA.score >= 1000) {
                             var spookyclass = SCARY[randint(0, 5)];
                             $('#board')
                                 .hide()
@@ -189,10 +212,10 @@ function attachHandlers() {
 function clearTO() {
     clearTimeout(TIMEOUTID);
     return setTimeout(function() {
-        if (DATA.score < 3000) {
+        if (DATA.score < 1000) {
             $('#board').html(
                 '<div class="jumbotron endmessage"><h1 class="endmessage">' +
-                    'You Did Not Reach The Required Score of 3000 with your score of ' +
+                    'You Did Not Reach The Required Score of 1000 with your score of ' +
                     DATA.score +
                     '</h1></div>'
             );
@@ -203,6 +226,13 @@ function clearTO() {
 function main() {
     $('.start').click(() => {
         DATA.grid = randGrid();
+        DATA.score = 0;
+        draw();
+
+        TIMEOUTID = clearTO();
+    });
+    $('.start-2').click(() => {
+        DATA.grid = nonRandGrid();
         DATA.score = 0;
         draw();
 
