@@ -1,4 +1,5 @@
 const $ = require('jquery');
+const R = require('ramda');
 const other = require('../../lib/other');
 // model
 function randint(lo, hi) {
@@ -40,7 +41,13 @@ var b = '../../assets/2.jpg';
 var c = '../../assets/4.jpg';
 
 function showGrid(grid) {
-    return grid.map(showRow).join('\n');
+    return (
+        '<table>' +
+        grid.map(showRow).join('\n') +
+        '</table><div class="well well-sm">' +
+        DATA.score +
+        '</div>'
+    );
 }
 
 function showRow(row, r) {
@@ -59,22 +66,58 @@ function showBlock(block, row, col) {
     );
 }
 
-var DATA = randGrid();
+var DATA = {
+    grid: randGrid(),
+    score: 0
+};
 
 function draw() {
-    $('#app').html(showGrid(DATA));
+    $('#app').html(showGrid(DATA.grid));
     attachHandlers();
 }
 
-function touch(x, y) {
-    DATA[x][y].touched = true;
-}
+function touch(grid, start_x, start_y) {
+    var clump = checked(grid, start_x, start_y);
 
-function checked(grid, start_x, start_y, block) {
+    if (clump.length > 1) {
+        for (i = 0; i < clump.length; i++) {
+            var x = clump[i][0];
+            var y = clump[i][1];
+            DATA.grid[x][y] = randBlock();
+        }
+    }
+    return 25 * clump.length;
+}
+function outOfBounds(x, y) {
+    if (x < 0 || x >= 5 || y < 0 || y >= 5) {
+        return true;
+    }
+}
+function checked(grid, start_x, start_y) {
     var history = [];
-    var to_explore = [(start_x, start_y)];
     var clump_so_far = [];
-    while (to_explore) {}
+    var to_explore = [[start_x, start_y]];
+    while (to_explore.length > 0) {
+        var pos = to_explore.pop();
+        var x = pos[0];
+        var y = pos[1];
+        if (R.contains([x, y], history)) {
+        } else if (outOfBounds(x, y)) {
+            history.push([x, y]);
+        } else if (grid[x][y].BlockType != grid[start_x][start_y].BlockType) {
+            history.push([x, y]);
+        } else {
+            to_explore = R.concat(to_explore, [
+                [x, y - 1],
+                [x, y + 1],
+                [x - 1, y],
+                [x + 1, y]
+            ]);
+            history.push([x, y]);
+            clump_so_far.push([x, y]);
+        }
+    }
+    return clump_so_far;
 }
 
 function attachHandlers() {
@@ -84,7 +127,8 @@ function attachHandlers() {
                 'click',
                 (function(x, y) {
                     return function() {
-                        touch(x, y);
+                        DATA.score += touch(DATA.grid, x, y);
+
                         $('#' + x + '-' + y).add('disabled', true);
                         draw();
                     };
@@ -94,49 +138,19 @@ function attachHandlers() {
     }
 }
 
-// $('#start').on('click', function() {
-//     var table = '';
-//     for (var c = 0; c < 5; c++) {
-//         DATA.push([]);
-//         table += '<tr>';
-//         for (var i = 0; i < 5; i++) {
-//             var img = get_img(randBlock());
-//             table +=
-//                 '<td class="square"><button onclick="dosomething(id)"><img id="' +
-//                 c +
-//                 i +
-//                 '" class=" ' +
-//                 (img === a
-//                     ? 'pumpkin'
-//                     : img == b ? 'house' : img == c ? 'witch' : 'witch') +
-//                 '"src="' +
-//                 img +
-//                 '"></img></button></td>';
-//             DATA[DATA.length - 1].push();
-//         }
-//         table += '</tr>';
-//         console.log(DATA);
-//     }
-//     $('#app').html(table);
-// });
-// function dosomething(id) {
-//     var x = Number(id[0]);
-//     var y = Number(id[1]);
-
-//     for (i = 0; i < x; i++) {
-//         for (n = 0; i < y; n++) {
-//             if ((i === x && n === y - 1) || n === y + 1) {
-//             }
-//         }
-//     }
-// }
-
 function main() {
     $('#start').click(() => {
-        DATA = randGrid();
+        DATA.grid = randGrid();
+        DATA.score = 0;
         draw();
+
+        setTimeout(function() {
+            $('#app').html('<div class="jumbotron">' + DATA.score + '</div>');
+        }, 35000);
     });
-    draw();
+    setTimeout(function() {
+        $('#app').html('<div class="jumbotron">' + DATA.score + '</div>');
+    }, 35000);
 }
 
 $(main);

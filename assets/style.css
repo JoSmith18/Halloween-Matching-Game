@@ -22,6 +22,7 @@ td {
 
 #board {
     text-align: center;
+    background-image: url('../assets/background.jpg');
 }
 
 h1 {
@@ -42,4 +43,10 @@ table {
 .block {
     width: 85%;
     height: 85%;
+}
+
+li {
+    font: message-box;
+    font-size: 22;
+    color: white;
 }
