@@ -4909,6 +4909,7 @@ function attachHandlers(month) {
                         DATA.score += touch(clump);
                         if (DATA.score >= 1000) {
                             var my_class = getClass(month);
+
                             $('#board')
                                 .hide()
                                 .html('')
@@ -5012,33 +5013,33 @@ function afterGame(my_class) {
             .removeClass(my_class)
             .html(
                 '<div class="jumbotron endmessage"><h1 class="endmessage">' +
-                    'You win with score of 1000! Good Job!' +
+                    'You win with a score of 1000! Good Job!' +
                     '<br><img class="pic" src="../../assets/spooky2.gif">' +
                     '</h1></div>'
             )
-            .fadeIn(500);
+            .fadeIn(200);
         clearTimeout(TIMEOUTID);
     } else if (GIVING.indexOf(my_class) > -1) {
         $('#board')
             .removeClass(my_class)
             .html(
                 '<div class="jumbotron endmessage"><h1 class="endmessage">' +
-                    'You win with score of 1000! Good Job!' +
+                    'You win with a score of 1000! Good Job!' +
                     '<br><img class="pic" src="https://media.giphy.com/media/pea3hRwQbzWXS/giphy.gif">' +
                     '</h1></div>'
             )
-            .fadeIn(500);
+            .fadeIn(200);
         clearTimeout(TIMEOUTID);
     } else if (CHRIST.indexOf(my_class) > -1) {
         $('#board')
             .removeClass(my_class)
             .html(
                 '<div class="jumbotron endmessage"><h1 class="endmessage">' +
-                    'You win with score of 1000! Good Job!' +
+                    'You win with a score of 1000! Good Job!' +
                     '<br><img class="pic" src="https://media.giphy.com/media/I9ghnmJEzOh7G/giphy.gif">' +
                     '</h1></div>'
             )
-            .fadeIn(500);
+            .fadeIn(200);
         clearTimeout(TIMEOUTID);
     }
 }
@@ -5100,11 +5101,11 @@ function main() {
 
 $(main);
 
-// function setBackground() {
+// function setEasy() {
 //     var d = new Date();
 //     var month_index = d.getMonth();
 //     if (month_index == 9) {
-//         // set spooky class
+
 //     } else if (month_index == 10) {
 //         // set turkey class
 //     } else if (month_index == 11) {

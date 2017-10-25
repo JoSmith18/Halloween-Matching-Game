@@ -1,15 +1,15 @@
 .main {
     background-image: url('mainbody.png');
 }
-.oct {
+.Oct {
     background-image: url('background.jpg');
 }
 
-.nov {
+.Nov {
     background-image: url('novbackground.jpg');
 }
 
-.dec {
+.Dec {
     background-image: url('christmasback.jpg');
 }
 .square {
@@ -67,10 +67,11 @@ table {
 }
 
 span {
+    background-color: black;
     margin: 100px;
     font: bold;
     font-size: 16;
-    color: black;
+    color: white;
 }
 
 .superScary {
@@ -80,72 +81,72 @@ span {
 
 .superScary1 {
     background-image: url('scary.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .superScary2 {
     background-image: url('scary1.gif');
-    background-size: cover;
+    background-size: contain;
 }
 .superScary3 {
     background-image: url('scary2.gif');
-    background-size: cover;
+    background-size: contain;
 }
 .superScary4 {
     background-image: url('https://media.giphy.com/media/3hxk2aOwWmfOU/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 .superScary5 {
     background-image: url('https://media.giphy.com/media/NYCjBIBGtyeFq/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .thanksGiving1 {
     background-image: url('https://media.giphy.com/media/l0HlJXqAUaLjJ9Lyw/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .thanksGiving2 {
     background-image: url('https://media.giphy.com/media/hHZfOv3tpyItG/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .thanksGiving3 {
     background-image: url('https://media.giphy.com/media/kmdimLJ8pwqOI/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .thanksGiving4 {
     background-image: url('https://media.giphy.com/media/3oz8xuXMdvWVLONQ9a/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .thanksGiving5 {
     background-image: url('https://media.giphy.com/media/3oriNOxhZpQB1511eM/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .mas1 {
     background-image: url('https://media.giphy.com/media/YxlUxrYGw2w9y/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .mas2 {
     background-image: url('https://media.giphy.com/media/K90ckojkohXfW/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .mas3 {
     background-image: url('https://media.giphy.com/media/xTk9ZLRMhW9wrSUf4c/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .mas4 {
     background-image: url('https://media.giphy.com/media/9w475hDWEPVlu/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
 
 .mas5 {
     background-image: url('https://media.giphy.com/media/D28t0Rto3daKI/giphy.gif');
-    background-size: cover;
+    background-size: contain;
 }
