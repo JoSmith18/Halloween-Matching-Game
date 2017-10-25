@@ -159,7 +159,9 @@ function attachHandlers(month) {
 }
 
 function draw(month) {
-    $('body').addClass(month);
+    $('body')
+        .attr('class', '')
+        .addClass(month);
     $('#board').html(showGrid(DATA.grid, month));
     attachHandlers(month);
 }
