@@ -1,5 +1,16 @@
-body {
+.main {
+    background-image: url('mainbody.png');
+}
+.oct {
     background-image: url('background.jpg');
+}
+
+.nov {
+    background-image: url('novbackground.jpg');
+}
+
+.dec {
+    background-image: url('christmasback.jpg');
 }
 .square {
     width: 100px;
@@ -55,11 +66,11 @@ table {
     height: 85%;
 }
 
-li {
+span {
     margin: 100px;
-    font: message-box;
-    font-size: 22;
-    color: white;
+    font: bold;
+    font-size: 16;
+    color: black;
 }
 
 .superScary {
@@ -86,5 +97,55 @@ li {
 }
 .superScary5 {
     background-image: url('https://media.giphy.com/media/NYCjBIBGtyeFq/giphy.gif');
+    background-size: cover;
+}
+
+.thanksGiving1 {
+    background-image: url('https://media.giphy.com/media/l0HlJXqAUaLjJ9Lyw/giphy.gif');
+    background-size: cover;
+}
+
+.thanksGiving2 {
+    background-image: url('https://media.giphy.com/media/hHZfOv3tpyItG/giphy.gif');
+    background-size: cover;
+}
+
+.thanksGiving3 {
+    background-image: url('https://media.giphy.com/media/kmdimLJ8pwqOI/giphy.gif');
+    background-size: cover;
+}
+
+.thanksGiving4 {
+    background-image: url('https://media.giphy.com/media/3oz8xuXMdvWVLONQ9a/giphy.gif');
+    background-size: cover;
+}
+
+.thanksGiving5 {
+    background-image: url('https://media.giphy.com/media/3oriNOxhZpQB1511eM/giphy.gif');
+    background-size: cover;
+}
+
+.mas1 {
+    background-image: url('https://media.giphy.com/media/YxlUxrYGw2w9y/giphy.gif');
+    background-size: cover;
+}
+
+.mas2 {
+    background-image: url('https://media.giphy.com/media/K90ckojkohXfW/giphy.gif');
+    background-size: cover;
+}
+
+.mas3 {
+    background-image: url('https://media.giphy.com/media/xTk9ZLRMhW9wrSUf4c/giphy.gif');
+    background-size: cover;
+}
+
+.mas4 {
+    background-image: url('https://media.giphy.com/media/9w475hDWEPVlu/giphy.gif');
+    background-size: cover;
+}
+
+.mas5 {
+    background-image: url('https://media.giphy.com/media/D28t0Rto3daKI/giphy.gif');
     background-size: cover;
 }

@@ -4817,15 +4817,18 @@ function nonRandGrid() {
     return grid;
 }
 
-// view
+function get_img(block, month) {
+    if (!block.touched) {
+        if (month === 'Oct') {
+            return IMAGES[block.BlockType];
+        } else if (month == 'Nov') {
+            return THANKS[block.BlockType];
+        } else if (month == 'Dec') {
+            return MAS[block.BlockType];
+        }
+    }
+}
 
-const SCARY = [
-    'superScary1',
-    'superScary2',
-    'superScary3',
-    'superScary4',
-    'superScary5'
-];
 const IMAGES = [
     '../../assets/1.jpg',
     '../../assets/2.jpg',
@@ -4834,38 +4837,49 @@ const IMAGES = [
     '../../assets/3.jpg'
 ];
 
-function get_img(block) {
-    if (!block.touched) {
-        return IMAGES[block.BlockType];
-    }
-}
+const SCARY = [
+    'superScary1',
+    'superScary2',
+    'superScary3',
+    'superScary4',
+    'superScary5'
+];
 
-var a = '../../assets/1.jpg';
-var b = '../../assets/2.jpg';
-var c = '../../assets/4.jpg';
+const MAS = [
+    '../../assets/mas.jpg',
+    '../../assets/mas2.jpg',
+    '../../assets/mas3.jpg',
+    '../../assets/mas4.jpeg',
+    '../../assets/mas5.jpg'
+];
 
-function showGrid(grid) {
+const CHRIST = ['mas1', 'mas2', 'mas3', 'mas4', 'mas5'];
+function showGrid(grid, month) {
     return (
         '<table>' +
-        grid.map(showRow).join('\n') +
+        grid.map((row, index) => showRow(row, index, month)).join('\n') +
         '</table><div class="well well-sm">' +
         DATA.score +
         '</div>'
     );
 }
 
-function showRow(row, r) {
-    return '<tr>' + row.map((b, c) => showBlock(b, r, c)).join('\n') + '</tr>';
+function showRow(row, r, month) {
+    return (
+        '<tr>' +
+        row.map((b, c) => showBlock(b, r, c, month)).join('\n') +
+        '</tr>'
+    );
 }
 
-function showBlock(block, row, col) {
+function showBlock(block, row, col, month) {
     return (
         '<td class="square"><button id="' +
         row +
         '-' +
         col +
         '"><img class="block" src="' +
-        get_img(block) +
+        get_img(block, month) +
         '"/> </button> </td>'
     );
 }
@@ -4875,10 +4889,73 @@ var DATA = {
     score: 0
 };
 
-function draw() {
-    $('#board').html(showGrid(DATA.grid));
-    attachHandlers();
+function getClass(month) {
+    if (month === 'Oct') {
+        return SCARY[randint(0, 5)];
+    } else if (month === 'Nov') {
+        return GIVING[randint(0, 5)];
+    } else if (month === 'Dec') {
+        return CHRIST[randint(0, 5)];
+    }
 }
+function attachHandlers(month) {
+    for (var x = 0; x < 6; x++) {
+        for (var y = 0; y < 6; y++) {
+            $('#' + x + '-' + y).on(
+                'click',
+                (function(x, y) {
+                    return function() {
+                        var clump = checked(DATA.grid, x, y);
+                        DATA.score += touch(clump);
+                        if (DATA.score >= 1000) {
+                            var my_class = getClass(month);
+                            $('#board')
+                                .hide()
+                                .html('')
+                                .fadeIn()
+                                .addClass('superScary')
+                                .addClass(my_class)
+                                .fadeOut(8000);
+                            $('#board')
+                                .promise()
+                                .done(function() {
+                                    clearTimeout(TIMEOUTID);
+                                    afterGame(my_class);
+                                });
+                            return '';
+                        }
+
+                        draw(month);
+                        hideFade(clump);
+                    };
+                })(x, y)
+            );
+        }
+    }
+}
+
+function draw(month) {
+    $('body').addClass(month);
+    $('#board').html(showGrid(DATA.grid, month));
+    attachHandlers(month);
+}
+
+const GIVING = [
+    'thanksGiving1',
+    'thanksGiving2',
+    'thanksGiving3',
+    'thanksGiving4',
+    'thanksGiving5'
+];
+
+const THANKS = [
+    '../../assets/thanks1.jpg',
+    '../../assets/thanks2.jpg',
+    '../../assets/thanks3.jpg',
+    '../../assets/thanks4.jpg',
+    '../../assets/thanks5.jpg'
+];
+// Functions
 
 function touch(clump) {
     if (clump.length > 1) {
@@ -4929,17 +5006,41 @@ function checked(grid, start_x, start_y) {
     return clump_so_far;
 }
 
-function afterGame(spookyclass) {
-    $('#board')
-        .removeClass(spookyclass)
-        .html(
-            '<div class="jumbotron endmessage"><h1 class="endmessage">' +
-                'You win with score of 1000! Good Job!' +
-                '<br><img class="pic" src="../../assets/spooky2.gif">' +
-                '</h1></div>'
-        )
-        .fadeIn(500);
-    clearTimeout(TIMEOUTID);
+function afterGame(my_class) {
+    if (SCARY.indexOf(my_class) > -1) {
+        $('#board')
+            .removeClass(my_class)
+            .html(
+                '<div class="jumbotron endmessage"><h1 class="endmessage">' +
+                    'You win with score of 1000! Good Job!' +
+                    '<br><img class="pic" src="../../assets/spooky2.gif">' +
+                    '</h1></div>'
+            )
+            .fadeIn(500);
+        clearTimeout(TIMEOUTID);
+    } else if (GIVING.indexOf(my_class) > -1) {
+        $('#board')
+            .removeClass(my_class)
+            .html(
+                '<div class="jumbotron endmessage"><h1 class="endmessage">' +
+                    'You win with score of 1000! Good Job!' +
+                    '<br><img class="pic" src="https://media.giphy.com/media/pea3hRwQbzWXS/giphy.gif">' +
+                    '</h1></div>'
+            )
+            .fadeIn(500);
+        clearTimeout(TIMEOUTID);
+    } else if (CHRIST.indexOf(my_class) > -1) {
+        $('#board')
+            .removeClass(my_class)
+            .html(
+                '<div class="jumbotron endmessage"><h1 class="endmessage">' +
+                    'You win with score of 1000! Good Job!' +
+                    '<br><img class="pic" src="https://media.giphy.com/media/I9ghnmJEzOh7G/giphy.gif">' +
+                    '</h1></div>'
+            )
+            .fadeIn(500);
+        clearTimeout(TIMEOUTID);
+    }
 }
 
 function hideFade(clump) {
@@ -4949,41 +5050,6 @@ function hideFade(clump) {
         $('#' + x + '-' + y).hide();
         $('#' + x + '-' + y).fadeIn();
     });
-}
-function attachHandlers() {
-    for (var x = 0; x < 6; x++) {
-        for (var y = 0; y < 6; y++) {
-            $('#' + x + '-' + y).on(
-                'click',
-                (function(x, y) {
-                    return function() {
-                        var clump = checked(DATA.grid, x, y);
-                        DATA.score += touch(clump);
-                        if (DATA.score >= 1000) {
-                            var spookyclass = SCARY[randint(0, 5)];
-                            $('#board')
-                                .hide()
-                                .html('')
-                                .fadeIn()
-                                .addClass('superScary')
-                                .addClass(spookyclass)
-                                .fadeOut(8000);
-                            $('#board')
-                                .promise()
-                                .done(function() {
-                                    clearTimeout(TIMEOUTID);
-                                    afterGame(spookyclass);
-                                });
-                            return '';
-                        }
-
-                        draw();
-                        hideFade(clump);
-                    };
-                })(x, y)
-            );
-        }
-    }
 }
 
 function clearTO() {
@@ -5004,20 +5070,47 @@ function main() {
     $('.start').click(() => {
         DATA.grid = randGrid();
         DATA.score = 0;
-        draw();
+        draw('Oct');
 
         TIMEOUTID = clearTO();
     });
     $('.start-2').click(() => {
         DATA.grid = nonRandGrid();
         DATA.score = 0;
-        draw();
+        draw('Oct');
+
+        TIMEOUTID = clearTO();
+    });
+    $('.Thanksgiving').click(() => {
+        DATA.grid = randGrid();
+        DATA.score = 0;
+        draw('Nov');
+
+        TIMEOUTID = clearTO();
+    });
+
+    $('.Christmas').click(() => {
+        DATA.grid = randGrid();
+        DATA.score = 0;
+        draw('Dec');
 
         TIMEOUTID = clearTO();
     });
 }
 
 $(main);
+
+// function setBackground() {
+//     var d = new Date();
+//     var month_index = d.getMonth();
+//     if (month_index == 9) {
+//         // set spooky class
+//     } else if (month_index == 10) {
+//         // set turkey class
+//     } else if (month_index == 11) {
+//         // set santa class
+//     }
+// }
 
 
 /***/ }),
