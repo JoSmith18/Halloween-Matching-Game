@@ -48,6 +48,8 @@ function get_img(block, month) {
             return THANKS[block.BlockType];
         } else if (month == 'Dec') {
             return MAS[block.BlockType];
+        } else if (month == 'Jan') {
+            return YEAR[block.BlockType];
         }
     }
 }
@@ -76,6 +78,15 @@ const MAS = [
     '../../assets/mas5.jpg'
 ];
 
+const YEAR = [
+    '../../assets/newyear.jpg',
+    '../../assets/newyear2.jpg',
+    '../../assets/newyear3.jpg',
+    '../../assets/newyear4.jpg',
+    '../../assets/newyear5.jpg'
+];
+
+const NEW = ['year1', 'year2', 'year3', 'year4', 'year5'];
 const CHRIST = ['mas1', 'mas2', 'mas3', 'mas4', 'mas5'];
 function showGrid(grid, month) {
     return (
@@ -119,6 +130,8 @@ function getClass(month) {
         return GIVING[randint(0, 5)];
     } else if (month === 'Dec') {
         return CHRIST[randint(0, 5)];
+    } else if (month === 'Jan') {
+        return NEW[randint(0, 5)];
     }
 }
 function attachHandlers(month) {
@@ -197,7 +210,7 @@ function touch(clump) {
         var x = clump[0][0];
         var y = clump[0][1];
         DATA.grid[x][y] = randBlock();
-        return -10;
+        return -15;
     }
 }
 function outOfBounds(x, y) {
@@ -266,6 +279,17 @@ function afterGame(my_class) {
             )
             .fadeIn(200);
         clearTimeout(TIMEOUTID);
+    } else if (NEW.indexOf(my_class) > -1) {
+        $('#board')
+            .removeClass(my_class)
+            .html(
+                '<div class="jumbotron endmessage"><h1 class="endmessage">' +
+                    'You win with a score of 1000! Good Job!' +
+                    '<br><img class="pic" src="https://media.giphy.com/media/26gJySS9UY6opOm4M/giphy.gif">' +
+                    '</h1></div>'
+            )
+            .fadeIn(200);
+        clearTimeout(TIMEOUTID);
     }
 }
 
@@ -293,6 +317,9 @@ function clearTO() {
 }
 
 function main() {
+    var d = new Date();
+    var month_index = d.getMonth();
+    var month_index = setImg(month_index);
     $('.start').click(() => {
         DATA.grid = randGrid();
         DATA.score = 0;
@@ -303,7 +330,7 @@ function main() {
     $('.start-2').click(() => {
         DATA.grid = nonRandGrid();
         DATA.score = 0;
-        draw('Oct');
+        draw(setEasy(month_index));
 
         TIMEOUTID = clearTO();
     });
@@ -322,18 +349,39 @@ function main() {
 
         TIMEOUTID = clearTO();
     });
+    $('.Newyears').click(() => {
+        DATA.grid = randGrid();
+        DATA.score = 0;
+        draw('Jan');
+
+        TIMEOUTID = clearTO();
+    });
 }
 
 $(main);
 
-// function setEasy() {
-//     var d = new Date();
-//     var month_index = d.getMonth();
-//     if (month_index == 9) {
+function setImg(month_index) {
+    if (month_index == 9) {
+        return $('.start-2').attr('src', '../../assets/spooky.gif');
+    } else if (month_index == 10) {
+        return $('.start-2').attr(
+            'src',
+            'https://media.giphy.com/media/3oriNMVgsGyXoRLViE/giphy.gif'
+        );
+    } else if (month_index == 11) {
+        return $('.start-2').attr(
+            'src',
+            'https://media.giphy.com/media/11BEQyXROgnLTG/giphy.gif'
+        );
+    }
+}
 
-//     } else if (month_index == 10) {
-//         // set turkey class
-//     } else if (month_index == 11) {
-//         // set santa class
-//     }
-// }
+function setEasy(month_index) {
+    if (month_index == 9) {
+        return 'Oct';
+    } else if (month_index == 10) {
+        return 'Nov';
+    } else if (month_index == 11) {
+        return 'Dec';
+    }
+}

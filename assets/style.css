@@ -12,6 +12,10 @@
 .Dec {
     background-image: url('christmasback.jpg');
 }
+
+.Jan {
+    background-image: url('newbg.jpg');
+}
 .square {
     width: 100px;
     height: 100px;
@@ -148,5 +152,27 @@ span {
 
 .mas5 {
     background-image: url('https://media.giphy.com/media/D28t0Rto3daKI/giphy.gif');
+    background-size: contain;
+}
+
+.year1 {
+    background-image: url('https://media.giphy.com/media/ZW7GZxa37cuZi/giphy.gif');
+    background-size: contain;
+}
+
+.year2 {
+    background-image: url('https://media.giphy.com/media/ZJaQ77sV9n1QI/giphy.gif');
+    background-size: contain;
+}
+.year3 {
+    background-image: url('https://media.giphy.com/media/V7hU8y5Wgrive/giphy.gif');
+    background-size: contain;
+}
+.year4 {
+    background-image: url('https://media.giphy.com/media/rHb5rFHKVT5PW/giphy.gif');
+    background-size: contain;
+}
+.year5 {
+    background-image: url('https://media.giphy.com/media/eQkvz1NnkXytG/giphy.gif');
     background-size: contain;
 }
