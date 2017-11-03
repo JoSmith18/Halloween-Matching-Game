@@ -319,7 +319,7 @@ function clearTO() {
 function main() {
     var d = new Date();
     var month_index = d.getMonth();
-    var month_index = setImg(month_index);
+    setImg(month_index);
     $('.start').click(() => {
         DATA.grid = randGrid();
         DATA.score = 0;
